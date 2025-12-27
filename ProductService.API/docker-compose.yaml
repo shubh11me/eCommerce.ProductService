@@ -1,0 +1,27 @@
+﻿services:
+  mysql-container:
+    image: mysql:8.3.0
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+    ports:
+      - "3306:3306"
+    volumes:
+      - /var/lib/mysql
+    networks:
+      - product-service-network
+    hostname: mysql-host-productservice
+
+  products-microservice:
+    image: shubh11me/ecommerce-products-service:v1.0
+    environment:
+      MYSQL_HOST: mysql-host-productservice
+      MYSQL_PASSWORD: admin
+    ports:
+      - "8080:8080"
+    networks:
+      - product-service-network
+
+networks:
+  product-service-network:
+    driver: bridge
+

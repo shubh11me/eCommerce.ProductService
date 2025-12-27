@@ -10,8 +10,9 @@ namespace DataAccessLayer
     {
         public static IServiceCollection AddDataAccessLayerServices(this IServiceCollection services, IConfiguration configuration)
         {
-            string conf = configuration.GetConnectionString("MySql");
-
+            string conf = configuration.GetConnectionString("MySql")!;
+            conf=conf.Replace("$MYSQL_PASSWORD", Environment.GetEnvironmentVariable("MYSQL_PASSWORD"))
+            .Replace("$MYSQL_HOST", Environment.GetEnvironmentVariable("MYSQL_HOST"));
             services.AddDbContext<Context.ApplicationDbContext>(options =>
                 options.UseMySql(conf, ServerVersion.AutoDetect(conf))
             );
