@@ -8,7 +8,7 @@
     volumes:
       - /var/lib/mysql
     networks:
-      - product-service-network
+      - ecommerce-network
     hostname: mysql-host-productservice
 
   products-microservice:
@@ -19,9 +19,31 @@
     ports:
       - "8080:8080"
     networks:
-      - product-service-network
+      - ecommerce-network
+  postgres-container:
+   image: postgres:16.1
+   environment:
+   - POSTGRES_USER=postgres
+   - POSTGRES_PASSWORD=admin
+   - POSTGRES_DB=eCommerceUsers
+   ports:
+   - "5432:5432"
+   volumes:
+   - ./postgres-init:/docker-entrypoint-initdb.d
+   networks:
+   - ecommerce-network
+
+  users-microservice:
+   image: shubh11me/ecommerce.userservice:latest
+   environment:
+   - POSTGRES_HOST=postgres-container
+   - POSTGRES_PASSWORD=admin
+   ports:
+   - "9090:8080"
+   networks:
+   - ecommerce-network
 
 networks:
-  product-service-network:
-    driver: bridge
+ ecommerce-network:
+  driver: bridge
 
