@@ -29,4 +29,7 @@ WORKDIR /app
 COPY --from=publish /app/publish .
 ENV MYSQL_HOST=localhost
 ENV MYSQL_PASSWORD=admin	
+ENV MYSQL_PORT=3306	
+ENV MYSQL_DB=db	
+ENV MYSQL_USER=admin	
 ENTRYPOINT ["dotnet", "ProductService.API.dll"]

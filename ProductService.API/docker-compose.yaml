@@ -16,6 +16,9 @@
     environment:
       MYSQL_HOST: mysql-host-productservice
       MYSQL_PASSWORD: admin
+      MYSQL_PORT: 3306
+      MYSQL_DB: ecommerceproductsdatabase
+      MYSQL_USER: root
     ports:
       - "8080:8080"
     networks:
